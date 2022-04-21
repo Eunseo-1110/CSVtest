@@ -15,7 +15,7 @@ public class TestCSV : MonoBehaviour
 
     void Start()
     {
-        List<List<string>> temp= CSVParse.Parse(text);
+        List<List<string>> temp= CSVParse.Parse(text.text);
         foreach (List<string> item in temp)
         {
             TestList testList = new TestList();

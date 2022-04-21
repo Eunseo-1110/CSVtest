@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
 
 
 public static class CSVParse
 {
-    public static List<List<string>> Parse(TextAsset text)
+    public static List<List<string>> Parse(string text)
     {
-        StringReader stringReader = new StringReader(text.text);
+        StringReader stringReader = new StringReader(text);
         TextReader reader = stringReader;
 
         List<List<string>> result = new List<List<string>>();       // 결과 리스트
@@ -15,23 +14,26 @@ public static class CSVParse
         bool isQuote = false;          // "확인
         bool isOneQuote = false;    // "를 1번이라도 만나면 확인
 
-        string line;        // 읽은 라인
-        List<string> tempLine = new List<string>(); // 결과 리스트에 담길 리스트
+        string line;
+
+        List<string> tempLine = new List<string>(); // 읽은 라인
         string tempStr = "";        // 읽은 텍스트
+
         while ((line = reader.ReadLine()) != null)
         {
-            for (int i = 0; i < line.Length; i++)
+            foreach(char ch in line)
             {
-                char ch = line[i];
                 switch (ch)
                 {
                     case ',':
+                        // " 확인
                         if (isQuote)
                         {
                             tempStr += ch;
                         }
                         else
                         {
+                            //다음 텍스트로
                             // 앞의 "삭제
                             if (isOneQuote)
                             {
@@ -44,9 +46,10 @@ public static class CSVParse
                         }
                         break;
                     case '"':
+                        // " 확인
                         if (isQuote)
                         {
-                            tempStr += ch;
+                            tempStr += ch;      // 텍스트에 " 추가
                             isQuote = false;
                         }
                         else
@@ -56,7 +59,7 @@ public static class CSVParse
                         }
                         break;
                     default:
-                        tempStr += ch;
+                        tempStr += ch;      // 텍스트에 문자 추가
                         break;
                 }
             }
@@ -70,13 +73,14 @@ public static class CSVParse
                     tempStr = tempStr.Remove(tempStr.Length - 1);
                     isOneQuote = false;
                 }
-                tempLine.Add(tempStr);
-                result.Add(tempLine);
+                tempLine.Add(tempStr);  // 라인에 텍스트 추가
+                result.Add(tempLine);       // 전체 리스트에 라인 추가
                 tempLine = new List<string>();
                 tempStr = "";
             }
             else
             {
+                // 줄바꿈
                 tempStr += "\n";
             }
         }
