@@ -13,6 +13,8 @@ public class TestCSV : MonoBehaviour
     public TextAsset text;
     public List<TestList> tempShowList;
 
+
+    public List<CSVClass.Data> DataList;
     void Start()
     {
         List<List<string>> temp= CSVParse.Parse(text.text);
@@ -22,6 +24,10 @@ public class TestCSV : MonoBehaviour
             testList.Test = item;
             tempShowList.Add(testList);
         }
+
+        CSVClass cSVClass = new CSVClass();
+        cSVClass.Load(text.text);
+        DataList = cSVClass.DataList;
     }
 
     void Update()
