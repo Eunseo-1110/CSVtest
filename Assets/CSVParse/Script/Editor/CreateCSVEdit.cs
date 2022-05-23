@@ -39,6 +39,5 @@ public class CreateCSVEdit : EditorWindow
 		string path = script == null ? 
 			(Application.dataPath +"/" +className + ".cs") : AssetDatabase.GetAssetPath(script);	// 경로
 		File.WriteAllText(path, code);	// 파일에 저장
-		AssetDatabase.Refresh();
     }
 }

@@ -21,7 +21,7 @@ public static class CSVParse
 
         while ((line = reader.ReadLine()) != null)
         {
-            foreach(char ch in line)
+            foreach (char ch in line)
             {
                 switch (ch)
                 {
